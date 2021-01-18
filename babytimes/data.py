@@ -8,6 +8,27 @@ import pandas as pd
 from typing import List
 import datetime as dt
 
+def end_of_day(begin_dt: dt.datetime) -> dt.datetime:
+    return dt.datetime(
+        year=begin_dt.year,
+        month=begin_dt.month,
+        day=begin_dt.day,
+        hour=23,
+        minute=59,
+        second=59,
+    )
+
+def begin_of_day(end_dt: dt.datetime) -> dt.datetime:
+    return dt.datetime(
+        year=end_dt.year,
+        month=end_dt.month,
+        day=end_dt.day,
+        hour=0,
+        minute=0,
+        second=0,
+    )
+
+
 
 @dataclass
 class Times:
@@ -65,26 +86,6 @@ class Sleeptimes:
     def cross_dates(self) -> pd.DataFrame:
         rel = self.df[self.df.begin_date != self.df.end_date]
 
-        def end_of_day(begin_dt: dt.datetime) -> dt.datetime:
-            return dt.datetime(
-                year=begin_dt.year,
-                month=begin_dt.month,
-                day=begin_dt.day,
-                hour=23,
-                minute=59,
-                second=59,
-            )
-
-        def begin_of_day(end_dt: dt.datetime) -> dt.datetime:
-            return dt.datetime(
-                year=end_dt.year,
-                month=end_dt.month,
-                day=end_dt.day,
-                hour=0,
-                minute=0,
-                second=0,
-            )
-
         first_part = rel.assign(end=rel.begin.map(end_of_day))[["begin", "end"]]
         second_part = rel.assign(begin=rel.end.map(begin_of_day))[["begin", "end"]]
         return pd.concat([first_part, second_part])
@@ -97,3 +98,9 @@ class Sleeptimes:
     @cached_property
     def df_viz(self) -> pd.DataFrame:
         return pd.concat([self.same_day, self.cross_dates])
+
+    @cached_property
+    def daily(self) -> pd.DataFrame:
+        self.df_viz["hours"] = (self.df_viz.end - self.df_viz.begin).dt.seconds / 60 / 60
+        self.df_viz["day"] = self.df_viz.begin.map(begin_of_day)
+        return self.df_viz.groupby(["day"], as_index=False).agg({"hours": "sum"})
