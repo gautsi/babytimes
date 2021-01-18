@@ -23,11 +23,24 @@ st = d.Sleeptimes({"loc": "./../../data"})
 st.df_viz.head()
 
 # %%
-bars = alt.Chart(st.df_viz).mark_bar().encode(
+bars = alt.Chart(st.df_viz).mark_bar(size=1.5).encode(
     y="yearmonthdate(begin)",
     x="hoursminutesseconds(begin)",
-    x2="hoursminutesseconds(end)",
+    x2="hoursminutes(end)",
+).properties(
+    width=300,
+    height=500
 )
 
 # %%
-bars
+hours = alt.Chart(st.daily).mark_line().encode(
+    y="yearmonthdate(day)",
+    x="hours",
+).properties(
+    width=300,
+    height=500
+)
+
+# %%
+alt.concat(bars, hours)
+# %%
