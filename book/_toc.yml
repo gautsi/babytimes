@@ -1,0 +1,5 @@
+- file: content/home
+
+- part: Inital exploration
+  chapters:
+  - file: notebooks/initial

@@ -1,0 +1,11 @@
+#! /bin/bash
+# run this from the main repo folder
+
+# source the venv
+source .venv/bin/activate
+
+# install the kernel (used for sphinx notebooks)
+ipython kernel install --user --name=.venv
+
+# tmux
+tmux new-session -d \; send-keys source Space .venv/bin/activate C-m \; split-window "code-server --auth=none --user-data-dir=/dockvol/code_server/user_data_dir/ --extensions-dir=/dockvol/code_server/extensions/"\; send-keys C-o \; attach
