@@ -28,3 +28,6 @@ bars = alt.Chart(st.df_viz).mark_bar().encode(
     x="hoursminutesseconds(begin)",
     x2="hoursminutesseconds(end)",
 )
+
+# %%
+bars
