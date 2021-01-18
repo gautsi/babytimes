@@ -187,6 +187,142 @@
                 
   <div class="section" id="initial-exploration-of-the-data">
 <h1>Initial exploration of the data<a class="headerlink" href="#initial-exploration-of-the-data" title="Permalink to this headline">¶</a></h1>
+<div class="cell tag_hide-cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython</span> <span class="kn">import</span> <span class="n">get_ipython</span>
+
+<span class="k">if</span> <span class="n">get_ipython</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_line_magic</span><span class="p">(</span><span class="s2">&quot;load_ext&quot;</span><span class="p">,</span> <span class="s2">&quot;autoreload&quot;</span><span class="p">)</span>
+    <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_line_magic</span><span class="p">(</span><span class="s2">&quot;autoreload&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">babytimes</span> <span class="kn">import</span> <span class="n">data</span> <span class="k">as</span> <span class="n">d</span>
+<span class="kn">from</span> <span class="nn">pygsutils</span> <span class="kn">import</span> <span class="n">general</span> <span class="k">as</span> <span class="n">g</span>
+<span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="nn">alt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">st</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">Sleeptimes</span><span class="p">({</span><span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="s2">&quot;./../../data&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">st</span><span class="o">.</span><span class="n">df_viz</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/dockvol/babytimes/babytimes/data.py:38: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  self.just_sleep[&quot;begin&quot;] = pd.to_datetime(self.just_sleep[&quot;beginDatetimeLocal&quot;])
+/dockvol/babytimes/babytimes/data.py:39: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  self.just_sleep[&quot;end&quot;] = pd.to_datetime(
+/dockvol/babytimes/babytimes/data.py:42: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  self.just_sleep[&quot;sec&quot;] = self.just_sleep[&quot;SLEEP_durationSeconds&quot;]
+/dockvol/babytimes/babytimes/data.py:44: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  self.just_sleep[f&quot;{typ}_time&quot;] = self.just_sleep[typ].dt.time
+/dockvol/babytimes/babytimes/data.py:45: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  self.just_sleep[f&quot;{typ}_date&quot;] = self.just_sleep[typ].dt.date
+/dockvol/babytimes/babytimes/data.py:56: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  self.just_sleep[&quot;typ&quot;] = self.just_sleep.apply(typ, axis=1)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>begin</th>
+      <th>end</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-01-08 11:47:49</td>
+      <td>2021-01-08 14:05:52</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2021-01-07 12:32:04</td>
+      <td>2021-01-07 14:03:00</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2021-01-07 05:29:25</td>
+      <td>2021-01-07 06:20:14</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2021-01-06 11:55:15</td>
+      <td>2021-01-06 14:04:23</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2021-01-05 11:54:49</td>
+      <td>2021-01-05 13:47:56</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bars</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">df_viz</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;yearmonthdate(begin)&quot;</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;hoursminutesseconds(begin)&quot;</span><span class="p">,</span>
+    <span class="n">x2</span><span class="o">=</span><span class="s2">&quot;hoursminutesseconds(end)&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
